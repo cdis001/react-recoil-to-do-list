@@ -1,7 +1,9 @@
 import react, { useState } from "react";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 
 import ToDo from "../ToDo";
+import { toDoListState } from "../../recoil/atoms";
 
 const ToDoListBox = styled.ul`
   width: 350px;
@@ -11,10 +13,10 @@ const ToDoListBox = styled.ul`
 `;
 
 function ToDoList() {
-  const toDos = [{ id: 1, contents: "hello", completed: false }];
+  const toDoLists = useRecoilValue(toDoListState);
   return (
     <ToDoListBox>
-      {toDos.map((data) => (
+      {toDoLists.map((data) => (
         <ToDo key={data.id} {...data} />
       ))}
     </ToDoListBox>
