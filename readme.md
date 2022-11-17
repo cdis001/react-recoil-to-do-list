@@ -4,13 +4,9 @@
 
 > https://recoiljs.org/ko/
 
-## Initialize Project
+## react-recoil
 
-1. add recoil
-
-```bash
-yarn add recoil
-```
+## nextjs-recoil
 
 ## Log
 
