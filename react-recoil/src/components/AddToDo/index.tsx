@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useSetRecoilState } from "recoil";
 
 import ToDoList from "../ToDoList";
-import { toDoListState } from "../../recoil/atoms";
+import { toDoListSelector } from "../../recoil/atoms";
 
 const AddToDo = styled.div`
   width: 360px;
@@ -37,7 +37,7 @@ const AddToDo = styled.div`
 
 function AddToDoComponent() {
   const [contents, setContents] = useState("");
-  const setToDoList = useSetRecoilState(toDoListState);
+  const setToDoList = useSetRecoilState(toDoListSelector);
 
   const addTodoToState = (e) => {
     setToDoList((todoLists) => [
@@ -45,7 +45,7 @@ function AddToDoComponent() {
       {
         id: todoLists.reduce((maxId, todo) => Math.max(todo.id, maxId), -1) + 1,
         contents,
-        isCompleted: false,
+        completed: false,
       },
     ]);
     setContents("");

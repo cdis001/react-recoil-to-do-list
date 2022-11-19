@@ -1,9 +1,9 @@
 import react, { useState } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useRecoilState } from "recoil";
 import styled from "styled-components";
 
 import ToDo from "../ToDo";
-import { toDoListState } from "../../recoil/atoms";
+import { toDoListSelector, todoListFilterState } from "../../recoil/atoms";
 
 const ToDoListBox = styled.ul`
   width: 350px;
@@ -12,10 +12,20 @@ const ToDoListBox = styled.ul`
   padding: 0px;
 `;
 
+const SelectBox = styled.select``;
+
 function ToDoList() {
-  const toDoLists = useRecoilValue(toDoListState);
+  const [toDoListFilterValue, setToDoListFilterValue] =
+    useRecoilState(todoListFilterState);
+  const toDoLists = useRecoilValue(toDoListSelector);
+
   return (
     <ToDoListBox>
+      <SelectBox onChange={(e) => setToDoListFilterValue(e.target.value)}>
+        <option value={"ALL"}>All</option>
+        <option value={"COMPLETED"}>Completed</option>
+        <option value={"UNCOMPLETED"}>Uncompleted</option>
+      </SelectBox>
       {toDoLists.map((data) => (
         <ToDo key={data.id} {...data} />
       ))}
