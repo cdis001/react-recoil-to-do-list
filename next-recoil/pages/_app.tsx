@@ -5,9 +5,6 @@ import { RecoilRoot } from "recoil";
 import "../styles/globals.css";
 
 export default function App({ Component, pageProps }: AppProps) {
-  useEffect(() => {
-    console.log(pageProps);
-  }, []);
   return (
     <RecoilRoot>
       <Component {...pageProps} />

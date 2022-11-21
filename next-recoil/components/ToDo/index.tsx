@@ -1,5 +1,8 @@
 import react, { useState } from "react";
 import styled from "styled-components";
+import { useRecoilState } from "recoil";
+
+import { toDoListState } from "../../recoil/atoms";
 
 const ToDoEl = styled.li`
   display: flex;
@@ -40,18 +43,34 @@ const ToggleCompletedBtn = styled.button`
 const DeleteToDoBtn = styled.button``;
 
 function ToDo({ id, contents, completed }) {
-  //   const [isCompleted, setIsCompleted] = useState(completed);
-  const [isCompleted, setIsCompleted] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(completed);
+  const [todoList, setTodoList] = useRecoilState(toDoListState);
+
+  const toggleCompletedToDo = () => {
+    const newToDoList = todoList.map((todo) =>
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    );
+
+    setTodoList(newToDoList);
+    setIsCompleted(!isCompleted);
+  };
+
+  const deleteToDo = () => {
+    const newToDoList = todoList.filter((todo) => todo.id !== id);
+
+    setTodoList(newToDoList);
+  };
+
   return (
     <ToDoEl className={`${isCompleted ? "completed" : null}`}>
       <ToggleCompletedBtn
         className={`${isCompleted ? "completed" : null}`}
-        onClick={() => setIsCompleted(!isCompleted)}
+        onClick={toggleCompletedToDo}
       >
         <span>✔️</span>
       </ToggleCompletedBtn>
       <label>{contents}</label>
-      <DeleteToDoBtn>✕</DeleteToDoBtn>
+      <DeleteToDoBtn onClick={deleteToDo}>✕</DeleteToDoBtn>
     </ToDoEl>
   );
 }

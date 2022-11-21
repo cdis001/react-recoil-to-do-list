@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useSetRecoilState } from "recoil";
+
+import { toDoListSelector } from "../../recoil/atoms";
 
 const AddToDoBox = styled.div`
   width: 360px;
@@ -33,8 +36,17 @@ const AddToDoBox = styled.div`
 
 function AddToDo() {
   const [contents, setContents] = useState("");
+  const setToDoList = useSetRecoilState(toDoListSelector);
 
   const addTodoToState = (e) => {
+    setToDoList((todoLists) => [
+      ...todoLists,
+      {
+        id: todoLists.reduce((maxId, todo) => Math.max(todo.id, maxId), -1) + 1,
+        contents,
+        completed: false,
+      },
+    ]);
     setContents("");
   };
 
